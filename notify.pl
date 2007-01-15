@@ -34,7 +34,7 @@ sub notify {
     my $cmd = "EXEC - notify-send" .
 	" -i " . Irssi::settings_get_str('notify_icon') .
 	" -t " . Irssi::settings_get_str('notify_time') .
-	" '" . $summary . "'" .
+	" -- '" . $summary . "'" .
 	" '" . $message . "'";
 
     $server->command($cmd);
