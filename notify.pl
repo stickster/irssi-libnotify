@@ -48,12 +48,21 @@ sub print_text_notify {
     notify($server, $dest->{target}, $stripped);
 }
 
-sub private_msg_notify {
+sub message_private_notify {
     my ($server, $msg, $nick, $address) = @_;
 
     return if (!$server);
     notify($server, "Private message from ".$nick, $msg);
 }
 
+sub dcc_request_notify {
+    my ($dcc, $sendaddr) = @_;
+    my $server = $dest->{server};
+
+    return if (!$dcc);
+    notify($server, "DCC ".$dcc->{type}." request", $sendaddr);
+}
+
 Irssi::signal_add('print text', 'print_text_notify');
-Irssi::signal_add('message private', 'private_msg_notify');
+Irssi::signal_add('message private', 'message_private_notify');
+Irssi::signal_add('dcc request', 'dcc_request_notify');
