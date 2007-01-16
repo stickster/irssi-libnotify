@@ -60,7 +60,7 @@ sub dcc_request_notify {
     my $server = $dcc->{server};
 
     return if (!$dcc);
-    notify($server, "DCC ".$dcc->{type}." request", $sendaddr);
+    notify($server, "DCC ".$dcc->{type}." request", $dcc->{nick});
 }
 
 Irssi::signal_add('print text', 'print_text_notify');
