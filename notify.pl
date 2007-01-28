@@ -47,7 +47,7 @@ sub notify {
     
     $obj->Notify("notify.pl",
 		 0,
-		 '',
+		 Irssi::settings_get_str('notify_icon'),
 		 $summary,
 		 $message,
 		 ['Close', 'Close'],
