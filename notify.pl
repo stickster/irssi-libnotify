@@ -27,10 +27,8 @@ Irssi::settings_add_str('notify', 'notify_time', '5000');
 sub notify {
     my ($server, $summary, $message) = @_;
     my $bus = Net::DBus->session;
+    return if (!$bus);
 
-    if (!&test_dbus("org.freedesktop.Notifications")) {
-	return;
-    }
     my $svc = $bus->get_service("org.freedesktop.Notifications");
     my $obj = $svc->get_object("/org/freedesktop/Notifications");
 
@@ -77,3 +75,4 @@ sub dcc_request_notify {
 Irssi::signal_add('print text', 'print_text_notify');
 Irssi::signal_add('message private', 'message_private_notify');
 Irssi::signal_add('dcc request', 'dcc_request_notify');
+print "D-Bus plugin loaded.";
