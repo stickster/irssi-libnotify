@@ -52,7 +52,7 @@ sub notify {
 		 $message,
 		 ['Close', 'Close'],
 		 {0, 0, 0}, 
-		 atoi(Irssi::settings_get_str('notify_time')));
+		 Irssi::settings_get_str('notify_time'));
 }
  
 sub print_text_notify {
