@@ -8,6 +8,8 @@
 use strict;
 use Irssi;
 use vars qw($VERSION %IRSSI);
+use Net::DBus qw(:typing);
+
 
 $VERSION = "0.01";
 %IRSSI = (
@@ -24,20 +26,25 @@ Irssi::settings_add_str('notify', 'notify_time', '5000');
 
 sub notify {
     my ($server, $summary, $message) = @_;
+    my $bus = Net::DBus->session;
+    my $svc = $bus->get_service("org.freedesktop.Notifications");
+    my $obj = $svc->get_object("/org/freedesktop/Notifications");
 
-    # Make the message entity-safe
-    $message =~ s/&/&amp;/g; # That could have been done better.
+    # Make the message entity-safe.  This is all a crappy hack and I'd
+    # love to know a Perl-ish way to do this properly.
+    $message =~ s/&/&amp;/g;
     $message =~ s/</&lt;/g;
     $message =~ s/>/&gt;/g;
     $message =~ s/'/&apos;/g;
 
-    my $cmd = "EXEC - notify-send" .
-	" -i " . Irssi::settings_get_str('notify_icon') .
-	" -t " . Irssi::settings_get_str('notify_time') .
-	" -- '" . $summary . "'" .
-	" '" . $message . "'";
-
-    $server->command($cmd);
+    $obj->Notify("notification.pl",
+		 0,
+		 '',
+		 $summary,
+		 $message,
+		 ['Close', 'Close'],
+		 {0, 0, 0}, 
+		 5_000);
 }
  
 sub print_text_notify {
@@ -59,7 +66,7 @@ sub dcc_request_notify {
     my ($dcc, $sendaddr) = @_;
     my $server = $dcc->{server};
 
-    return if (!$dcc);
+    return if (!$server || !$dcc);
     notify($server, "DCC ".$dcc->{type}." request", $dcc->{nick});
 }
 
