@@ -24,6 +24,13 @@ $VERSION = "0.2.0";
 Irssi::settings_add_str('notify', 'notify_icon', 'gtk-dialog-info');
 Irssi::settings_add_str('notify', 'notify_time', '5000');
 
+sub atoi {
+    my $t;
+    foreach my $d (split(//, shift())) {
+	$t = $t * 10 + $d;
+    }
+}
+
 sub notify {
     my ($server, $summary, $message) = @_;
     my $bus = Net::DBus->session;
@@ -37,15 +44,15 @@ sub notify {
     $message =~ s/</&lt;/g;
     $message =~ s/>/&gt;/g;
     $message =~ s/'/&apos;/g;
-
-    $obj->Notify("notification.pl",
+    
+    $obj->Notify("notify.pl",
 		 0,
 		 '',
 		 $summary,
 		 $message,
 		 ['Close', 'Close'],
 		 {0, 0, 0}, 
-		 5_000);
+		 atoi(Irssi::settings_get_str('notify_time')));
 }
  
 sub print_text_notify {
