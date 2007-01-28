@@ -16,7 +16,7 @@ $VERSION = "0.01";
     authors     => 'Luke Macken, Paul W. Frields',
     contact     => 'lewk@csh.rit.edu, stickster@gmail.com',
     name        => 'notify.pl',
-    description => 'Use libnotify to alert user to hilighted messages',
+    description => 'Use D-Bus to alert user to hilighted messages',
     license     => 'GNU General Public License',
     url         => 'http://lewk.org/log/code/irssi-notify',
 );
@@ -27,11 +27,12 @@ Irssi::settings_add_str('notify', 'notify_time', '5000');
 sub notify {
     my ($server, $summary, $message) = @_;
     my $bus = Net::DBus->session;
-    return if (!$bus);
+
+    if (!&test_dbus("org.freedesktop.Notifications")) {
+	return;
+    }
     my $svc = $bus->get_service("org.freedesktop.Notifications");
-    return if (!$svc);
     my $obj = $svc->get_object("/org/freedesktop/Notifications");
-    return if (!$obj);
 
     # Make the message entity-safe.  This is all a crappy hack and I'd
     # love to know a Perl-ish way to do this properly.
