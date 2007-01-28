@@ -29,9 +29,8 @@ sub notify {
     my $bus = Net::DBus->session;
     return if (!$bus);
     my $svc = $bus->get_service("org.freedesktop.Notifications");
-    return if (!$svc);
     my $obj = $svc->get_object("/org/freedesktop/Notifications");
-    return if (!$obj);
+
     # Make the message entity-safe.  This is all a crappy hack and I'd
     # love to know a Perl-ish way to do this properly.
     $message =~ s/&/&amp;/g;
