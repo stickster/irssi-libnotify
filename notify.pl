@@ -11,7 +11,7 @@ use vars qw($VERSION %IRSSI);
 use Net::DBus qw(:typing);
 
 
-$VERSION = "0.01";
+$VERSION = "0.2.0";
 %IRSSI = (
     authors     => 'Luke Macken, Paul W. Frields',
     contact     => 'lewk@csh.rit.edu, stickster@gmail.com',
