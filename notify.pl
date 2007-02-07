@@ -8,15 +8,13 @@
 use strict;
 use Irssi;
 use vars qw($VERSION %IRSSI);
-use Net::DBus qw(:typing);
 
-
-$VERSION = "0.2.0";
+$VERSION = "0.01";
 %IRSSI = (
     authors     => 'Luke Macken, Paul W. Frields',
     contact     => 'lewk@csh.rit.edu, stickster@gmail.com',
     name        => 'notify.pl',
-    description => 'Use D-Bus to alert user to hilighted messages',
+    description => 'Use libnotify to alert user to hilighted messages',
     license     => 'GNU General Public License',
     url         => 'http://lewk.org/log/code/irssi-notify',
 );
@@ -24,35 +22,22 @@ $VERSION = "0.2.0";
 Irssi::settings_add_str('notify', 'notify_icon', 'gtk-dialog-info');
 Irssi::settings_add_str('notify', 'notify_time', '5000');
 
-sub atoi {
-    my $t;
-    foreach my $d (split(//, shift())) {
-	$t = $t * 10 + $d;
-    }
-}
-
 sub notify {
     my ($server, $summary, $message) = @_;
-    my $bus = Net::DBus->session;
-    return if (!$bus);
-    my $svc = $bus->get_service("org.freedesktop.Notifications");
-    my $obj = $svc->get_object("/org/freedesktop/Notifications");
 
-    # Make the message entity-safe.  This is all a crappy hack and I'd
-    # love to know a Perl-ish way to do this properly.
-    $message =~ s/&/&amp;/g;
+    # Make the message entity-safe
+    $message =~ s/&/&amp;/g; # That could have been done better.
     $message =~ s/</&lt;/g;
     $message =~ s/>/&gt;/g;
     $message =~ s/'/&apos;/g;
-    
-    $obj->Notify("notify.pl",
-		 0,
-		 Irssi::settings_get_str('notify_icon'),
-		 $summary,
-		 $message,
-		 ['Close', 'Close'],
-		 {0, 0, 0}, 
-		 Irssi::settings_get_str('notify_time'));
+
+    my $cmd = "EXEC - notify-send" .
+	" -i " . Irssi::settings_get_str('notify_icon') .
+	" -t " . Irssi::settings_get_str('notify_time') .
+	" -- '" . $summary . "'" .
+	" '" . $message . "'";
+
+    $server->command($cmd);
 }
  
 sub print_text_notify {
@@ -74,11 +59,10 @@ sub dcc_request_notify {
     my ($dcc, $sendaddr) = @_;
     my $server = $dcc->{server};
 
-    return if (!$server || !$dcc);
+    return if (!$dcc);
     notify($server, "DCC ".$dcc->{type}." request", $dcc->{nick});
 }
 
 Irssi::signal_add('print text', 'print_text_notify');
 Irssi::signal_add('message private', 'message_private_notify');
 Irssi::signal_add('dcc request', 'dcc_request_notify');
-print "D-Bus plugin loaded.";
