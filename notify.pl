@@ -22,14 +22,21 @@ $VERSION = "0.01";
 Irssi::settings_add_str('notify', 'notify_icon', 'gtk-dialog-info');
 Irssi::settings_add_str('notify', 'notify_time', '5000');
 
+sub sanitize {
+  my ($text) = @_;
+  $text =~ s/&/&amp;/g; # That could have been done better.
+  $text =~ s/</&lt;/g;
+  $text =~ s/>/&gt;/g;
+  $text =~ s/'/&apos;/g;
+  return $text;
+}
+
 sub notify {
     my ($server, $summary, $message) = @_;
 
     # Make the message entity-safe
-    $message =~ s/&/&amp;/g; # That could have been done better.
-    $message =~ s/</&lt;/g;
-    $message =~ s/>/&gt;/g;
-    $message =~ s/'/&apos;/g;
+    $summary = sanitize($summary);
+    $message = sanitize($message);
 
     my $cmd = "EXEC - notify-send" .
 	" -i " . Irssi::settings_get_str('notify_icon') .
