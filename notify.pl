@@ -8,6 +8,7 @@
 use strict;
 use Irssi;
 use vars qw($VERSION %IRSSI);
+use HTML::Entities;
 
 $VERSION = "0.01";
 %IRSSI = (
@@ -24,10 +25,7 @@ Irssi::settings_add_str('notify', 'notify_time', '5000');
 
 sub sanitize {
   my ($text) = @_;
-  $text =~ s/&/&amp;/g; # That could have been done better.
-  $text =~ s/</&lt;/g;
-  $text =~ s/>/&gt;/g;
-  $text =~ s/'/&apos;/g;
+  encode_entities($text);
   return $text;
 }
 
