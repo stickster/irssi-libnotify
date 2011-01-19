@@ -9,6 +9,7 @@ use strict;
 use Irssi;
 use vars qw($VERSION %IRSSI);
 use Net::DBus qw(:typing);
+use HTML::Entities;
 
 
 $VERSION = "0.2.0";
@@ -38,13 +39,9 @@ sub notify {
     my $svc = $bus->get_service("org.freedesktop.Notifications");
     my $obj = $svc->get_object("/org/freedesktop/Notifications");
 
-    # Make the message entity-safe.  This is all a crappy hack and I'd
-    # love to know a Perl-ish way to do this properly.
-    $message =~ s/&/&amp;/g;
-    $message =~ s/</&lt;/g;
-    $message =~ s/>/&gt;/g;
-    $message =~ s/'/&apos;/g;
-    
+    # Make the message entity-safe.
+    encode_entities($message);
+
     $obj->Notify("notify.pl",
 		 0,
 		 Irssi::settings_get_str('notify_icon'),
