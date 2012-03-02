@@ -9,6 +9,12 @@ except:
 import dbus
 import dbus.mainloop.glib
 
+player = None
+for path in os.environ['PATH'].split(os.pathsep):
+    if os.path.isfile(os.path.join(path, 'canberra-gtk-play')):
+        player = os.path.join(path, 'canberra-gtk-play')
+        break
+
 class IrssiListener:
     def __init__(self):
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
@@ -28,8 +34,9 @@ class IrssiListener:
 
         # It would be more kosher to do this with GStreamer, but in
         # the interest of time:
-        os.spawnlp(os.P_NOWAIT, 'ogg123', 'ogg123', '-q',
-                   '/usr/share/sounds/freedesktop/stereo/message-new-instant.oga')
+        if player is not None:
+            os.spawnlp(os.P_NOWAIT, 'canberra-gtk-play',
+                       player, '-i', 'message-new-instant')
 
     def __del__(self):
         Notify.uninit()
