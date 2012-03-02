@@ -1,10 +1,13 @@
 #!/usr/bin/python
 
-import os
-from gi.repository import Notify
+import os, sys
+try:
+    from gi.repository import Notify, GObject
+except:
+    print >> sys.stderr, 'Could not locate pygobject'
+    sys.exit(-1)
 import dbus
 import dbus.mainloop.glib
-import gobject
 
 class IrssiListener:
     def __init__(self):
@@ -33,5 +36,5 @@ class IrssiListener:
 
 if __name__ == '__main__':
     l = IrssiListener()
-    loop = gobject.MainLoop()
+    loop = GObject.MainLoop()
     loop.run()
