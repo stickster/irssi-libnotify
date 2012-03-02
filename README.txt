@@ -15,7 +15,6 @@ REQUIREMENTS
  * irssi
  * libnotify >= 0.7  (but slightly older libnotify may work)
  * pygobject >= 3.0
- * vorbis-tools (the 'ogg123' player utility)
 
 
 INSTRUCTIONS
