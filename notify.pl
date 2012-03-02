@@ -10,14 +10,14 @@ use Irssi;
 use vars qw($VERSION %IRSSI);
 use HTML::Entities;
 
-$VERSION = "0.01";
+$VERSION = "0.5";
 %IRSSI = (
     authors     => 'Luke Macken, Paul W. Frields',
     contact     => 'lewk@csh.rit.edu, stickster@gmail.com',
     name        => 'notify.pl',
-    description => 'Use libnotify to alert user to hilighted messages',
+    description => 'Use D-Bus to alert user to hilighted messages',
     license     => 'GNU General Public License',
-    url         => 'http://lewk.org/log/code/irssi-notify',
+    url         => 'http://code.google.com/p/irssi-libnotify',
 );
 
 Irssi::settings_add_str('notify', 'notify_remote', '');
