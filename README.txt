@@ -1,3 +1,9 @@
+You can find this project online at:
+  http://code.google.com/p/irssi-libnotify/source/browse/trunk
+
+For information on how to retrieve the latest copy, refer to:
+  http://code.google.com/p/irssi-libnotify/source/checkout 
+
 This is a slightly nicer D-Bus approach that plays nicely with the
 GNOME Shell's notification area.  If you are looking for the older,
 simpler version using libnotify, simply check out the old-libnotify
