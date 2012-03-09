@@ -26,8 +26,9 @@ sub sanitize {
   my ($text) = @_;
   encode_entities($text,'\'<>&');
   my $apos = "&#39;";
-  my $aposenc = "&apos;";
+  my $aposenc = "\&apos;";
   $text =~ s/$apos/$aposenc/g;
+  $text =~ s/"/\\"/g;
   return $text;
 }
 
