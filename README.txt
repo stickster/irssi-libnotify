@@ -21,6 +21,7 @@ REQUIREMENTS
  * irssi
  * libnotify >= 0.7  (but slightly older libnotify may work)
  * pygobject >= 3.0
+ * perl-HTML-Parser
 
 
 INSTRUCTIONS
