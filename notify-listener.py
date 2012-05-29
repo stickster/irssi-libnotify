@@ -8,6 +8,7 @@ except:
     sys.exit(-1)
 import dbus
 import dbus.mainloop.glib
+from subprocess import call
 
 player = None
 for path in os.environ['PATH'].split(os.pathsep):
@@ -35,8 +36,9 @@ class IrssiListener:
         # It would be more kosher to do this with GStreamer, but in
         # the interest of time:
         if player is not None:
-            os.spawnlp(os.P_NOWAIT, 'canberra-gtk-play',
-                       player, '-i', 'message-new-instant')
+            retcode = call([player, '-i', 'message-new-instant'])
+            if retcode < 0:
+                print "ERROR: Player returned code %d" % (retcode)
 
     def __del__(self):
         Notify.uninit()
