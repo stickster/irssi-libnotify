@@ -30,6 +30,7 @@ sub sanitize {
   $text =~ s/$apos/$aposenc/g;
   $text =~ s/"/\\"/g;
   $text =~ s/\$/\\\$/g;
+  $text =~ s/`/'/g;
   return $text;
 }
 
