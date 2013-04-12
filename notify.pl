@@ -21,6 +21,7 @@ $VERSION = "0.5";
 );
 
 Irssi::settings_add_str('notify', 'notify_remote', '');
+Irssi::settings_add_str('notify', 'notify_debug', '');
 
 sub sanitize {
   my ($text) = @_;
@@ -48,8 +49,13 @@ sub notify {
     $server->command($cmd);
 
     my $remote = Irssi::settings_get_str('notify_remote');
+    my $debug = Irssi::settings_get_str('notify_debug');
+    my $nodebugstr = '- ';
+    if ($debug ne '') {
+	$nodebugstr = '';
+    }
     if ($remote ne '') {
-	my $cmd = "EXEC - ssh -q " . $remote . " \"".
+	my $cmd = "EXEC " . $nodebugstr . "ssh -q " . $remote . " \"".
 	    " ~/bin/irssi-notifier.sh".
 	    " dbus-send --session /org/irssi/Irssi org.irssi.Irssi.IrssiNotify" .
 	    " string:'" . $summary . "'" .
