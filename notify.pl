@@ -25,6 +25,8 @@ Irssi::settings_add_str('notify', 'notify_time', '5000');
 
 sub sanitize {
   my ($text) = @_;
+  $text =~ s/\$/\\\$/g;
+  $text =~ s/`/\\"/g;
   encode_entities($text);
   return $text;
 }
