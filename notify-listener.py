@@ -47,6 +47,8 @@ class IrssiListener:
         n = Notify.Notification.new(subject.encode('utf-8'),
                                     message.encode('utf-8'),
                                     'dialog-information')
+        # Concatenate messages for certain distros
+        n.set_hint_string('x-canonical-append', 'true')
         n.show()
 
         # It would be more kosher to do this with GStreamer, but in
