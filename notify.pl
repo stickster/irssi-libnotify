@@ -42,18 +42,19 @@ sub notify {
     $summary = sanitize($summary);
     $message = sanitize($message);
 
-    my $cmd = "EXEC - " .
+    my $debug = Irssi::settings_get_str('notify_debug');
+    my $nodebugstr = '- ';
+    if ($debug ne '') {
+	$nodebugstr = '';
+    }
+    my $cmd = "EXEC " . $nodebugstr .
+	" ~/bin/irssi-notifier.sh " .
 	"dbus-send --session /org/irssi/Irssi org.irssi.Irssi.IrssiNotify" .
 	" string:'" . $summary . "'" .
 	" string:'" . $message . "'";
     $server->command($cmd);
 
     my $remote = Irssi::settings_get_str('notify_remote');
-    my $debug = Irssi::settings_get_str('notify_debug');
-    my $nodebugstr = '- ';
-    if ($debug ne '') {
-	$nodebugstr = '';
-    }
     if ($remote ne '') {
 	my $cmd = "EXEC " . $nodebugstr . "ssh -q " . $remote . " \"".
 	    " ~/bin/irssi-notifier.sh".
