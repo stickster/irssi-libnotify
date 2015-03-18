@@ -1,8 +1,5 @@
 You can find this project online at:
-  http://code.google.com/p/irssi-libnotify/source/browse/trunk
-
-For information on how to retrieve the latest copy, refer to:
-  http://code.google.com/p/irssi-libnotify/source/checkout 
+  https://github.com/stickster/irssi-libnotify
 
 This is a slightly nicer D-Bus approach that plays nicely with the
 GNOME Shell's notification area.  If you are looking for the older,
@@ -31,7 +28,8 @@ INSTRUCTIONS
 directory.
 
 2. Run gnome-session-properties and add an automatic launcher for
-notify-listener.py.
+notify-listener.py.  In very new versions of GNOME, you may need
+to construct a .desktop file and add it to ~/.config/autostart/ .
 
 3. Copy notify.pl to $HOME/.irssi/scripts/.
 
@@ -57,4 +55,4 @@ or have to worry about firewalls and other such stuff.  Thanks for
 trying this out.
 
 
--- PWF 2013-03-21
+-- PWF 2015-03-18
