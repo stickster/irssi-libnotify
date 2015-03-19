@@ -31,11 +31,18 @@ directory.
 notify-listener.py.  In very new versions of GNOME, you may need
 to construct a .desktop file and add it to ~/.config/autostart/ .
 
-3. Copy notify.pl to $HOME/.irssi/scripts/.
+3. Copy notify.pl to the $HOME/.irssi/scripts/ directory.
 
 4. To load it at irssi launch, make sure you have a
-$HOME/.irssi/scripts/autorun/ folder.  Then do this:
+$HOME/.irssi/scripts/autorun/ folder.  Then set up a symbolic link
+to the script:
    $ ln -s ../notify.pl $HOME/.irssi/scripts/autorun/
+
+5. Start the listener int he background:
+   $ notify-listener &
+
+6. Start or restart irssi, or else load the notify script in irssi:
+   /SCRIPT LOAD notify.pl
 
 If you are running irssi remotely, currently your remote machine
 account would need to be able to SSH back to your local box without a
