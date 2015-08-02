@@ -94,6 +94,7 @@ main(){
     required_apps=(
         "pgrep"
         "xargs"
+        "irssi"
         "canberra-gtk-play"
     )
     installer.check_required_apps "${required_apps[@]}"
