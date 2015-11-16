@@ -66,7 +66,7 @@ sub notify {
     }
 
 }
- 
+
 sub print_text_notify {
     my ($dest, $text, $stripped) = @_;
     my $server = $dest->{server};
