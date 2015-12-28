@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Irssi-notify-listener
+GenericName=Irssi-notifications-listener
+Comment=Irssi notifications listener
+Exec=notify-listener.py
+Icon=notify
+Terminal=false
+Type=Application
+Categories=Utility;Application;
+X-GNOME-Autostart-enabled=false
+Hidden=false
