@@ -56,6 +56,12 @@ machine*.  This is most useful if you're on the same local network
 with the other box; firewalls or other non-local routing will probably
 make it difficult to use this feature.
 
+If your local machine is a Mac, add the "M" character to the end of
+the IP address.  Obviously on Macs you can skip steps 1, 2, and 5.
+The script will use the built-in osascript binary to trigger
+notifications.  You still need to make sure your SSH key works from
+the system on which irssi is running to the Mac you're using locally.
+
 In the future I'm going to add a feature to provide messages raw over
 a remotely forwarded port, so you won't need any special key handling
 or have to worry about firewalls and other such stuff.  Thanks for
