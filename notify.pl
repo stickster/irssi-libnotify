@@ -35,6 +35,27 @@ sub sanitize {
   return $text;
 }
 
+sub notify_linux {
+    my ($server, $nodebugstr, $remote, $summary, $message) = @_;
+    my $cmd = "EXEC " . $nodebugstr . "ssh -q " . $remote . " \"".
+	" ~/bin/irssi-notifier.sh".
+	" dbus-send --session /org/irssi/Irssi org.irssi.Irssi.IrssiNotify" .
+	" string:'" . $summary . "'" .
+	" string:'" . $message . "'\"";
+    #print $cmd;
+    $server->command($cmd);
+}
+
+sub notify_mac {
+    my ($server, $nodebugstr, $remote, $summary, $message) = @_;
+    my $cmd = "EXEC " . $nodebugstr . "ssh -q " . $remote . " \"".
+	" osascript -e".
+	" 'display notification \\\"". $message . "\\\"" .
+	" with title \\\"" . $summary . "\\\"" .
+	" sound name \\\"Basso\\\"'\"";
+    $server->command($cmd);
+}
+    
 sub notify {
     my ($server, $summary, $message) = @_;
 
@@ -56,13 +77,13 @@ sub notify {
 
     my $remote = Irssi::settings_get_str('notify_remote');
     if ($remote ne '') {
-	my $cmd = "EXEC " . $nodebugstr . "ssh -q " . $remote . " \"".
-	    " ~/bin/irssi-notifier.sh".
-	    " dbus-send --session /org/irssi/Irssi org.irssi.Irssi.IrssiNotify" .
-	    " string:'" . $summary . "'" .
-	    " string:'" . $message . "'\"";
-	#print $cmd;
-	$server->command($cmd);
+	if (substr($remote, length($remote)-1) ne 'M') {
+	    notify_linux($server, $nodebugstr, $remote, $summary, $message);
+	}
+	else {
+	    $remote = substr($remote, 0, length($remote)-1);
+	    notify_mac($server, $nodebugstr, $remote, $summary, $message);
+	}
     }
 
 }
