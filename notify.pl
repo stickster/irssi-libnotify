@@ -48,6 +48,7 @@ sub notify_linux {
 
 sub notify_mac {
     my ($server, $nodebugstr, $remote, $summary, $message) = @_;
+    $message =~ s/\\"/\\\\\\"/g;
     my $cmd = "EXEC " . $nodebugstr . "ssh -q " . $remote . " \"".
 	" osascript -e".
 	" 'display notification \\\"". $message . "\\\"" .
