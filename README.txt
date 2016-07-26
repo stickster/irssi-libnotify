@@ -20,6 +20,14 @@ REQUIREMENTS
  * pygobject >= 3.0
  * perl-HTML-Parser
 
+Fedora Specific Requirements
+----------------------------
+In order to run step 5 in the instructions below, the following
+packages were required in Fedora:
+
+ * dnf install perl-HTML-Parser
+ * dnf install pygobject3
+ * dnf install dbus-python
 
 INSTRUCTIONS
 ============
@@ -29,7 +37,19 @@ directory.
 
 2. Run gnome-session-properties and add an automatic launcher for
 notify-listener.py.  In very new versions of GNOME, you may need
-to construct a .desktop file and add it to ~/.config/autostart/ .
+to construct a .desktop file and add it to ~/.config/autostart/ ,
+a sample being:
+```
+[Desktop Entry]
+Name=notify-listener
+GenericName=irssi notify listener
+Comment=Allows irssi to send desktop notifications
+Exec=/home/<username>/bin/notify-listener.py
+Terminal=False
+Type=Application
+Categories=Utility
+X-GNOME-Autostart-enabled=true
+```
 
 3. Copy notify.pl to the $HOME/.irssi/scripts/ directory.
 
