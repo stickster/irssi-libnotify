@@ -67,5 +67,11 @@ a remotely forwarded port, so you won't need any special key handling
 or have to worry about firewalls and other such stuff.  Thanks for
 trying this out.
 
+BUGS
+====
+
+Ubuntu 16.04 doesn't display notifications with normal urgency by
+default. Add a line 'n.set_urgency(Notify.Urgency.CRITICAL)' to the
+IrssiListener.notify method in notify-listener.py to work around this.
 
 -- PWF 2015-03-18
