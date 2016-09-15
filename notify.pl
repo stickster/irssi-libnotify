@@ -27,24 +27,13 @@ sub sanitize {
   my ($text) = @_;
   $text =~ s/\$/\\\$/g;
   $text =~ s/`/\\"/g;
-  encode_entities($text);
+  encode_entities($text,'<>%');
   return $text;
 }
 
 sub notify {
     my ($server, $summary, $message) = @_;
-
-    # Make the message entity-safe
-    $summary = sanitize($summary);
-    $message = sanitize($message);
-
-    my $cmd = "EXEC - notify-send" .
-	" -i " . Irssi::settings_get_str('notify_icon') .
-	" -t " . Irssi::settings_get_str('notify_time') .
-	" -- '" . $summary . "'" .
-	" '" . $message . "'";
-
-    $server->command($cmd);
+    system("notify-send" => -i => Irssi::settings_get_str('notify_icon'), -t => Irssi::settings_get_str('notify_time'), '--', $summary, $message);
 }
  
 sub print_text_notify {
