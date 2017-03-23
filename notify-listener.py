@@ -18,6 +18,8 @@
 
 import os, sys
 try:
+    import gi
+    gi.require_version('Notify', '0.7')
     from gi.repository import Notify, GObject
 except:
     print >> sys.stderr, 'Could not locate pygobject'
