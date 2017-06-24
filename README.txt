@@ -38,8 +38,10 @@ $HOME/.irssi/scripts/autorun/ folder.  Then set up a symbolic link
 to the script:
    $ ln -s ../notify.pl $HOME/.irssi/scripts/autorun/
 
-5. Start the listener int he background:
-   $ notify-listener &
+5. Setup the listener background task:
+   $ cp notify-listener.py /usr/bin/
+   $ cp irssi-libnotify.service $HOME/.config/systemd/user/
+   $ systemctl --user enable irssi-libnotify --now
 
 6. Start or restart irssi, or else load the notify script in irssi:
    /SCRIPT LOAD notify.pl
