@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2.7
 #
 # Copyright (C) 2012 Paul W. Frields <stickster@gmail.com>
 #
