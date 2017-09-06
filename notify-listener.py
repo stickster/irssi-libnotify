@@ -29,6 +29,8 @@ import dbus.mainloop.glib
 from subprocess import call
 
 player = None
+# It would be more kosher to do this with GStreamer, but in
+# the interest of time:
 for path in os.environ['PATH'].split(os.pathsep):
     if os.path.isfile(os.path.join(path, 'canberra-gtk-play')):
         player = os.path.join(path, 'canberra-gtk-play')
@@ -53,9 +55,16 @@ class IrssiListener:
         n.set_hint_string('x-canonical-append', 'true')
         n.show()
 
-        # It would be more kosher to do this with GStreamer, but in
-        # the interest of time:
-        if player is not None:
+        proxy = None
+        presence = None
+        proxy = self.bus.get_object('org.gnome.SessionManager',
+                                    '/org/gnome/SessionManager/Presence')
+        if proxy:
+            iface = dbus.Interface(proxy,
+                                   'org.freedesktop.DBus.Properties')
+            presence = iface.Get('org.gnome.SessionManager.Presence', 'status')
+
+        if (not presence or presence == 0) and player is not None:
             retcode = call([player, '-i', 'message-new-instant'])
             if retcode < 0:
                 print "ERROR: Player returned code %d" % (retcode)
