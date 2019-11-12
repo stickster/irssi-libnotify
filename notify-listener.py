@@ -45,9 +45,8 @@ class IrssiListener:
         Notify.init('irssi')
 
     def notify(self, subject, message):
-        print subject, message
-        n = Notify.Notification.new(subject.encode('utf-8'),
-                                    message.encode('utf-8'),
+        n = Notify.Notification.new(subject,
+                                    message,
                                     'dialog-information')
         # Concatenate messages for certain distros
         n.set_hint_string('x-canonical-append', 'true')
@@ -58,7 +57,7 @@ class IrssiListener:
         if player is not None:
             retcode = call([player, '-i', 'message-new-instant'])
             if retcode < 0:
-                print "ERROR: Player returned code %d" % (retcode)
+                print("ERROR: Player returned code %d" % (retcode))
 
     def __del__(self):
         Notify.uninit()
