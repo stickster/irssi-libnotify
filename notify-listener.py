@@ -20,7 +20,7 @@ import os, sys
 try:
     import gi
     gi.require_version('Notify', '0.7')
-    from gi.repository import Notify, GObject
+    from gi.repository import Notify, GLib
 except:
     print >> sys.stderr, 'Could not locate pygobject'
     sys.exit(-1)
@@ -65,5 +65,5 @@ class IrssiListener:
 
 if __name__ == '__main__':
     l = IrssiListener()
-    loop = GObject.MainLoop()
+    loop = GLib.MainLoop()
     loop.run()
