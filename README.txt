@@ -39,8 +39,8 @@ to the script:
    $ ln -s ../notify.pl $HOME/.irssi/scripts/autorun/
 
 5. Setup the listener background task:
-   $ cp irssi-libnotify.service $HOME/.config/systemd/user/
-   $ systemctl --user enable irssi-libnotify --now
+   $ cp notify-listener.service $HOME/.config/systemd/user/
+   $ systemctl --user enable notify-listener --now
 
 6. Start or restart irssi, or else load the notify script in irssi:
    /SCRIPT LOAD notify.pl
